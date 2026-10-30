@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="50%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#172554" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#B91C1C" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Starburst / Laurel Border -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-dasharray="6,4" />
+  <circle cx="100" cy="100" r="90" fill="#0F172A" stroke="url(#goldGrad)" stroke-width="2" />
+
+  <!-- Shield Base -->
+  <path d="M 50,45 L 150,45 C 150,45 155,100 100,155 C 45,100 50,45 50,45 Z" fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="3" filter="url(#glow)" />
+
+  <!-- Philippine Sun Rays Emblem -->
+  <circle cx="100" cy="80" r="16" fill="url(#goldGrad)" />
+  <path d="M 100,55 L 100,61 M 100,99 L 100,105 M 75,80 L 81,80 M 119,80 L 125,80 M 82,62 L 87,67 M 113,93 L 118,98 M 82,98 L 87,93 M 113,67 L 118,62" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Medical Red Cross with Gold Outline -->
+  <rect x="94" y="105" width="12" height="32" rx="2" fill="url(#redGrad)" stroke="#FDE68A" stroke-width="1.5" />
+  <rect x="84" y="115" width="32" height="12" rx="2" fill="url(#redGrad)" stroke="#FDE68A" stroke-width="1.5" />
+
+  <!-- Scales of Justice / Jail Bars accent -->
+  <path d="M 68,90 L 132,90 M 100,75 L 100,90" stroke="#FDE68A" stroke-width="2" stroke-linecap="round" />
+  <path d="M 72,90 L 64,106 L 80,106 Z" fill="none" stroke="#FDE68A" stroke-width="1.5" />
+  <path d="M 128,90 L 120,106 L 136,106 Z" fill="none" stroke="#FDE68A" stroke-width="1.5" />
+
+  <!-- Text Arc Ribbon -->
+  <path id="textArcTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" />
+  <text font-family="'Inter', sans-serif" font-size="11" font-weight="900" fill="#FDE68A" letter-spacing="2">
+    <textPath href="#textArcTop" startOffset="50%" text-anchor="middle">BJMP HEALTH SERVICE</textPath>
+  </text>
+
+  <path id="textArcBottom" d="M 170,100 A 70,70 0 0,1 30,100" fill="none" />
+  <text font-family="'Inter', sans-serif" font-size="10" font-weight="800" fill="#FDE68A" letter-spacing="2.5">
+    <textPath href="#textArcBottom" startOffset="50%" text-anchor="middle">PHILIPPINES • DILG</textPath>
+  </text>
+</svg>

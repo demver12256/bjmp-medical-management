@@ -1,0 +1,80 @@
+    <!-- ============================================================ -->
+    <!-- VITAL SPIKE SIMULATOR & TELEMETRY MONITOR                   -->
+    <!-- ============================================================ -->
+    <div id="tabPanel_telemetry" class="space-y-6 hidden">
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>⚡</span>
+          <span>Biomedical Vital Spike Alert Simulation & Telemetry Monitor</span>
+        </h2>
+        <p class="text-xs text-slate-400">Real-time simulation of medical ward telemetry with timing diagram state machine enforcement.</p>
+      </div>
+
+      <!-- ECG Waveform Canvas -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></div>
+            <div class="font-bold text-sm text-cyan-300">Continuous Cardiac & Biomedical Telemetry (Lead II)</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 font-mono">Timing State:</span>
+            <span id="monitorStatePill" class="px-2.5 py-1 text-xs font-mono font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              🟢 NORMAL RHYTHM
+            </span>
+          </div>
+        </div>
+
+        <div class="ecg-container rounded-xl w-full h-[140px] flex items-center justify-center">
+          <canvas id="ecgCanvas" class="w-full h-full block"></canvas>
+        </div>
+
+        <!-- Latency & State Diagnostics -->
+        <div class="grid grid-cols-3 gap-3 text-center text-xs font-mono">
+          <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">DISPATCH QUEUE LATENCY</div>
+            <div id="monitorLatencyEl" class="text-base font-bold text-cyan-400 mt-0.5">&lt; 5 ms</div>
+            <div class="text-[10px] text-slate-500">Requirement: &lt; 30 ms</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">STATE MACHINE PATH</div>
+            <div class="text-xs font-bold text-slate-200 mt-1">NORMAL ➔ ALERT ➔ SENDING ➔ SILENT</div>
+            <div class="text-[10px] text-slate-500">Timing Diagram Loop</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">PHYSICIAN NOTIFICATION</div>
+            <div class="text-xs font-bold text-amber-400 mt-1">Audible Strobe Alarm Toast</div>
+            <div class="text-[10px] text-slate-500">Requires Doctor Acknowledge</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trigger Simulation Buttons -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-3">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Trigger Emergency Vital Spike Scenarios:</h3>
+        <p class="text-xs text-slate-400">Click a scenario button to simulate an emergency biomedical spike in the PDL medical ward and observe the alert timing loop.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <button onclick="triggerSimulation('hypertensive')" class="p-4 rounded-xl bg-gradient-to-br from-red-950/80 to-slate-900 border border-red-500/40 hover:border-red-500 text-left transition-all group">
+            <div class="text-xs font-mono font-bold text-red-400 group-hover:text-red-300">🚨 SCENARIO A</div>
+            <div class="text-sm font-bold text-white mt-1">Hypertensive Crisis</div>
+            <div class="text-xs text-slate-400 mt-0.5">BP: 215/125 mmHg • HR: 135 bpm</div>
+            <div class="text-[10px] text-red-300/80 mt-2 font-mono">Immediate stroke risk warning</div>
+          </button>
+
+          <button onclick="triggerSimulation('tachycardia')" class="p-4 rounded-xl bg-gradient-to-br from-amber-950/80 to-slate-900 border border-amber-500/40 hover:border-amber-500 text-left transition-all group">
+            <div class="text-xs font-mono font-bold text-amber-400 group-hover:text-amber-300">⚡ SCENARIO B</div>
+            <div class="text-sm font-bold text-white mt-1">Severe Tachycardia</div>
+            <div class="text-xs text-slate-400 mt-0.5">HR: 148 bpm • Temp: 38.2°C</div>
+            <div class="text-[10px] text-amber-300/80 mt-2 font-mono">Acute supraventricular tachycardia</div>
+          </button>
+
+          <button onclick="triggerSimulation('hypoxia')" class="p-4 rounded-xl bg-gradient-to-br from-purple-950/80 to-slate-900 border border-purple-500/40 hover:border-purple-500 text-left transition-all group">
+            <div class="text-xs font-mono font-bold text-purple-400 group-hover:text-purple-300">🫁 SCENARIO C</div>
+            <div class="text-sm font-bold text-white mt-1">Hypoxia / Desaturation</div>
+            <div class="text-xs text-slate-400 mt-0.5">SpO2: 82% • RR: 32 cpm</div>
+            <div class="text-[10px] text-purple-300/80 mt-2 font-mono">Acute respiratory distress</div>
+          </button>
+        </div>
+      </div>
+    </div>
+

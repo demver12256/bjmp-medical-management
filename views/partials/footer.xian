@@ -1,0 +1,18 @@
+  <footer class="mt-16 py-6 border-t border-slate-800 text-center text-slate-500 text-xs no-print">
+    <div class="flex items-center justify-center gap-2 mb-1">
+      <img src="/images/bjmp-badge.svg" alt="BJMP Insignia" class="w-4 h-4 opacity-70" />
+      <span class="font-bold tracking-wider text-slate-400">BUREAU OF JAIL MANAGEMENT AND PENOLOGY</span>
+    </div>
+    <p>Republic of the Philippines • Department of the Interior and Local Government • Health Service Directorate</p>
+    <p class="font-mono text-[10px] text-slate-600 mt-1">BJMP Medical Officer Management System v2.6 • HIPAA & Data Privacy Act of 2012 (RA 10173) Compliant</p>
+  </footer>
+
+  <script src="/js/alertMonitor.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

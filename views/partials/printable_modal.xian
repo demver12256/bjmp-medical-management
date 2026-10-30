@@ -1,0 +1,20 @@
+  <!-- ============================================================ -->
+  <!-- MODAL: PRINTABLE CLINICAL ABSTRACT                           -->
+  <!-- ============================================================ -->
+  <div id="printableModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div id="printableModalContainer" class="bg-white text-black max-w-3xl w-full rounded-2xl shadow-2xl overflow-hidden my-8">
+      <div class="p-4 border-b border-gray-300 flex items-center justify-between bg-gray-100 no-print">
+        <div class="font-bold text-sm text-gray-800">Print Preview: Official BJMP Clinical Abstract</div>
+        <div class="flex items-center gap-2">
+          <button onclick="triggerPrint()" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-blue-700 hover:bg-blue-600 text-white flex items-center gap-1.5 shadow">
+            🖨️ Print / Save as PDF
+          </button>
+          <button onclick="closePrintableAbstract()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800">
+            Close
+          </button>
+        </div>
+      </div>
+      <div id="printableAbstractContent" class="p-2"></div>
+    </div>
+  </div>
+

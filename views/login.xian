@@ -1,0 +1,123 @@
+{{> head }}
+<body class="bg-[#0b132b] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-md w-full pointer-events-none"></div>
+
+  <!-- Main Login Content -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6">
+    <div class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-12 glass-panel border border-slate-700/80 rounded-3xl overflow-hidden shadow-2xl">
+      
+      <!-- Left Column: BJMP Branding & Role Portals Quick-Access -->
+      <div class="lg:col-span-7 p-6 sm:p-8 bg-slate-900/60 border-b lg:border-b-0 lg:border-r border-slate-800 flex flex-col justify-between space-y-6">
+        <div>
+          <div class="flex items-center gap-3.5 mb-4">
+            <img src="/images/bjmp-badge.svg" alt="BJMP Insignia" class="w-14 h-14 drop-shadow-xl" />
+            <div>
+              <div class="text-[10px] uppercase tracking-widest text-amber-400 font-bold">Republic of the Philippines • DILG</div>
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">BJMP Medical Officer</h1>
+              <p class="text-xs text-slate-400 font-medium">Health Service Directorate • Role-Based Management System</p>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed mb-5">
+            Select a dedicated role portal below for 1-click demonstration sign-in, or authenticate with your official BJMP personnel credentials on the right. Each role redirects to its own isolated workspace page.
+          </p>
+
+          <div class="text-[11px] font-bold uppercase tracking-wider text-blue-300 mb-3 flex items-center gap-1.5">
+            <span>⚡</span> Dedicated Role Portals (1-Click Launch):
+          </div>
+
+          <!-- 4 Role Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Role 1: Medical Officer -->
+            <button onclick="quickLogin('doctor')" class="p-3.5 rounded-2xl bg-blue-950/50 hover:bg-blue-900/60 border border-blue-500/40 hover:border-blue-400 text-left transition-all group">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-base">🩺</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">/medical-officer</span>
+              </div>
+              <div class="font-bold text-white text-xs group-hover:text-blue-200">Dr. Maria Elena Santos, MD</div>
+              <div class="text-[11px] text-blue-300 font-semibold">Medical Officer Page</div>
+              <div class="text-[10px] text-slate-400 mt-1">Consultations, Diagnoses, Prescriptions & Referrals</div>
+            </button>
+
+            <!-- Role 2: Nurse -->
+            <button onclick="quickLogin('nurse')" class="p-3.5 rounded-2xl bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/40 hover:border-emerald-400 text-left transition-all group">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-base">📋</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">/nurse</span>
+              </div>
+              <div class="font-bold text-white text-xs group-hover:text-emerald-200">Nurse Juan Dela Cruz, RN</div>
+              <div class="text-[11px] text-emerald-300 font-semibold">Nurse Triage Station Page</div>
+              <div class="text-[10px] text-slate-400 mt-1">PDL Registration, Vital Signs Triage & Rx Dispensing</div>
+            </button>
+
+            <!-- Role 3: Jail Officer -->
+            <button onclick="quickLogin('officer')" class="p-3.5 rounded-2xl bg-amber-950/50 hover:bg-amber-900/60 border border-amber-500/40 hover:border-amber-400 text-left transition-all group">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-base">🚔</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">/jail-officer</span>
+              </div>
+              <div class="font-bold text-white text-xs group-hover:text-amber-200">JO2 Ricardo 'Cardo' Gomez</div>
+              <div class="text-[11px] text-amber-300 font-semibold">Jail Escort Officer Page</div>
+              <div class="text-[10px] text-slate-400 mt-1">Hospital Escort Dispatch & Custody Checkup Requests</div>
+            </button>
+
+            <!-- Role 4: System Admin -->
+            <button onclick="quickLogin('admin')" class="p-3.5 rounded-2xl bg-purple-950/50 hover:bg-purple-900/60 border border-purple-500/40 hover:border-purple-400 text-left transition-all group">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-base">🛡️</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">/admin</span>
+              </div>
+              <div class="font-bold text-white text-xs group-hover:text-purple-200">Alexander Ramos, MIT</div>
+              <div class="text-[11px] text-purple-300 font-semibold">System Administrator Page</div>
+              <div class="text-[10px] text-slate-400 mt-1">Officer Accounts, Warden Approvals & Audit Trail</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>🔒 RBAC Role Isolation Active</span>
+          <span id="headerDigitalClock">09:35:00 PHT</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Standard Personnel Login Form -->
+      <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-center space-y-6 bg-[#131d38]/90">
+        <div>
+          <div class="inline-block px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-[10px] font-mono font-bold uppercase mb-2">
+            Personnel Authentication
+          </div>
+          <h2 class="text-lg font-bold text-white">Sign In with Credentials</h2>
+          <p class="text-xs text-slate-400 mt-1">Enter your username and password to open your role-specific dashboard.</p>
+        </div>
+
+        <form onsubmit="handleCustomLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Personnel Username</label>
+            <input type="text" id="loginUsername" required placeholder="dr.santos | nurse.cruz | jo.gomez | admin" class="w-full px-3.5 py-2.5 text-xs rounded-xl bg-slate-900 border border-slate-700 text-white font-mono focus:outline-none focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 text-xs rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500" />
+          </div>
+
+          <button type="submit" class="w-full py-3 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 transition-all">
+            Authenticate & Open Role Page ➔
+          </button>
+        </form>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 text-[11px] text-slate-400 space-y-1 font-mono">
+          <div class="text-slate-300 font-sans font-bold mb-1">Default Accounts Reference:</div>
+          <div>• <span class="text-blue-300">dr.santos</span> / Doctor123!</div>
+          <div>• <span class="text-emerald-300">nurse.cruz</span> / Nurse123!</div>
+          <div>• <span class="text-amber-300">jo.gomez</span> / Officer123!</div>
+          <div>• <span class="text-purple-300">admin</span> / Admin123!</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+{{> footer }}

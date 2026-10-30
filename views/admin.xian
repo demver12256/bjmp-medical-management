@@ -1,0 +1,275 @@
+{{> head }}
+<body class="bg-[#0b132b] text-slate-100 min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
+
+  {{> navbar }}
+
+  <!-- ============================================================ -->
+  <!-- SYSTEM ADMINISTRATOR DEDICATED WORKSPACE (/admin)            -->
+  <!-- ============================================================ -->
+  <main id="mainAppContainer" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Admin Role Banner -->
+    <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-purple-950/70 via-slate-900/80 to-slate-900/80 border border-purple-500/30 flex flex-wrap items-center justify-between gap-4 no-print">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-2xl">
+          🛡️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-bold text-white">System Administration, Warden Command & Immutable Audit Trail</h2>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">SystemAdministrator Role</span>
+          </div>
+          <p class="text-xs text-slate-400">Manage BJMP personnel accounts, approve hospital referral clearances, and inspect tamper-evident audit logs.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openCreateUserModal()" class="px-4 py-2 text-xs font-bold rounded-xl bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/30 transition-all flex items-center gap-1.5">
+          <span>+</span> Create Officer Account
+        </button>
+      </div>
+    </div>
+
+    <!-- System Health Diagnostics -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6 no-print">
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400 uppercase font-semibold">Active Accounts</div>
+        <div id="adminStatUsers" class="text-2xl font-black text-white mt-0.5">--</div>
+      </div>
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400 uppercase font-semibold">Audit Logs Logged</div>
+        <div id="adminStatAudits" class="text-2xl font-black text-purple-400 mt-0.5">--</div>
+      </div>
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400 uppercase font-semibold">Node Runtime</div>
+        <div id="adminSystemNode" class="text-xl font-mono text-emerald-400 mt-1">--</div>
+      </div>
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400 uppercase font-semibold">RAM (Heap/RSS)</div>
+        <div id="adminSystemMem" class="text-xl font-mono text-cyan-400 mt-1">--</div>
+      </div>
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400 uppercase font-semibold">System Uptime</div>
+        <div id="adminSystemUptime" class="text-xl font-mono text-amber-400 mt-1">--</div>
+      </div>
+    </div>
+
+    <!-- Admin Internal Section Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-800 pb-3 mb-6 overflow-x-auto no-print">
+      <button id="tabBtn_admin" onclick="switchTab('admin')" class="px-4 py-2 text-xs sm:text-sm font-bold rounded-lg border flex items-center gap-2 transition-all bg-blue-600/30 text-blue-400 border-blue-500/50">
+        <span>👥</span>
+        <span>Officer & Staff Accounts</span>
+      </button>
+
+      <button id="tabBtn_audits" onclick="switchTab('audits')" class="px-4 py-2 text-xs sm:text-sm font-bold rounded-lg border border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all">
+        <span>📜</span>
+        <span>Immutable Audit Trail</span>
+      </button>
+
+      <button id="tabBtn_referrals" onclick="switchTab('referrals')" class="px-4 py-2 text-xs sm:text-sm font-bold rounded-lg border border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all">
+        <span>🏥</span>
+        <span>Warden Referral Clearances</span>
+      </button>
+    </div>
+
+    <!-- SECTION 1: OFFICER USER ACCOUNTS -->
+    <div id="tabPanel_admin" class="space-y-6">
+      <div class="glass-panel rounded-xl border border-slate-800 overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">BJMP Officer & Medical Personnel Accounts</h3>
+            <p class="text-xs text-slate-400">Role-Based Access Control (RBAC) directory and account status control.</p>
+          </div>
+          <button onclick="openCreateUserModal()" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-purple-600 hover:bg-purple-500 text-white">
+            + Add Personnel
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-900/80 text-[11px] uppercase tracking-wider text-slate-400 font-semibold border-b border-slate-800">
+              <tr>
+                <th class="px-5 py-3">ID</th>
+                <th class="px-5 py-3">Officer Name (Username)</th>
+                <th class="px-5 py-3">Assigned Role</th>
+                <th class="px-5 py-3">Account Status</th>
+                <th class="px-5 py-3 text-right">Status Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersTableBody" class="divide-y divide-slate-800/60">
+              <tr><td colspan="5" class="px-6 py-6 text-center text-slate-500">Loading accounts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: IMMUTABLE AUDIT LOGS -->
+    <div id="tabPanel_audits" class="space-y-6 hidden">
+      <div class="glass-panel rounded-xl border border-slate-800 overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span>📜</span>
+              <span>Immutable Audit Trail Logs</span>
+            </h3>
+            <p class="text-xs text-slate-400">Every clinical entry, prescription, referral and role modification is permanently archived.</p>
+          </div>
+          <button onclick="fetchAuditLogs()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+            🔄 Refresh Logs
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-900/80 text-[11px] uppercase tracking-wider text-slate-400 font-semibold border-b border-slate-800">
+              <tr>
+                <th class="px-4 py-3">Timestamp</th>
+                <th class="px-4 py-3">Officer / Actor</th>
+                <th class="px-4 py-3">Action</th>
+                <th class="px-4 py-3">Module</th>
+                <th class="px-4 py-3">Details</th>
+              </tr>
+            </thead>
+            <tbody id="auditLogsTableBody" class="divide-y divide-slate-800/60 font-mono text-xs">
+              <tr><td colspan="5" class="px-6 py-6 text-center text-slate-500">Loading audit trail...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: WARDEN REFERRAL CLEARANCES -->
+    <div id="tabPanel_referrals" class="space-y-6 hidden">
+      <div class="glass-panel rounded-xl border border-slate-800 overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span>🏥</span>
+              <span>Warden Command • Hospital Referral Clearances</span>
+            </h3>
+            <p class="text-xs text-slate-400">Authorize out-of-facility hospital transfers ("Warden Approved") after Escort Request verification.</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-900/80 text-[11px] uppercase tracking-wider text-slate-400 font-semibold border-b border-slate-800">
+              <tr>
+                <th class="px-5 py-3">Referral ID</th>
+                <th class="px-5 py-3">PDL Patient</th>
+                <th class="px-5 py-3">Destination Hospital & Reason</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Security Escort Detail</th>
+                <th class="px-5 py-3 text-right">Warden Action</th>
+              </tr>
+            </thead>
+            <tbody id="referralsTableBody" class="divide-y divide-slate-800/60">
+              <tr><td colspan="6" class="px-6 py-6 text-center text-slate-500">Loading referrals...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: CREATE NEW OFFICER ACCOUNT (ADMIN) -->
+  <div id="createUserModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm no-print">
+    <div class="glass-panel border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-white">Create Personnel Account</h3>
+          <p class="text-xs text-slate-400">Provision new role-based BJMP user</p>
+        </div>
+        <button onclick="closeCreateUserModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <form onsubmit="handleCreateUserSubmit(event)" class="space-y-3">
+        <div>
+          <label class="text-[11px] text-slate-400">Full Name & Title</label>
+          <input type="text" id="newUserFullName" required placeholder="e.g. Dr. Roberto Reyes, MD" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] text-slate-400">Username</label>
+            <input type="text" id="newUserUsername" required placeholder="dr.reyes" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white font-mono" />
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400">Password</label>
+            <input type="password" id="newUserPassword" required placeholder="••••••••" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-400">System Role</label>
+          <select id="newUserRole" class="w-full px-3 py-2 text-xs rounded bg-slate-900 border border-slate-700 text-white font-semibold">
+            <option value="MedicalOfficer">MedicalOfficer (Physician / Doctor)</option>
+            <option value="Nurse">Nurse (Health Personnel)</option>
+            <option value="JailOfficer">JailOfficer (Escort & Custody)</option>
+            <option value="SystemAdministrator">SystemAdministrator (IT / Command)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] text-slate-400">License / Badge No.</label>
+            <input type="text" id="newUserLicense" placeholder="PRC-MD-11223 or BADGE-01" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white font-mono" />
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400">Personnel ID / Spec.</label>
+            <input type="text" id="newUserSpec" placeholder="BJMP-2026-009" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white" />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-700">
+          <button type="button" onclick="closeCreateUserModal()" class="px-4 py-2 text-xs rounded bg-slate-800 text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold rounded bg-purple-600 hover:bg-purple-500 text-white">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ESCORT / WARDEN APPROVAL -->
+  <div id="escortModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm no-print">
+    <div class="glass-panel border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-white">Warden Referral Clearance</h3>
+          <p class="text-xs text-slate-400">Approve or update hospital transfer status</p>
+        </div>
+        <button onclick="closeEscortModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <form onsubmit="handleEscortSubmit(event)" class="space-y-4">
+        <input type="hidden" id="escortReferralId" />
+        <div class="p-3 rounded-lg bg-slate-900 text-xs">
+          <div class="font-bold text-blue-400" id="escortModalRefNum">--</div>
+          <div class="text-slate-300" id="escortModalDest">--</div>
+        </div>
+
+        <div>
+          <label class="text-[11px] text-slate-400">Referral Status Progression</label>
+          <select id="escortStatusSelect" class="w-full px-3 py-2 text-xs rounded bg-slate-900 border border-slate-700 text-white font-semibold">
+            <option value="Drafted">Drafted</option>
+            <option value="Escort Requested">Escort Requested</option>
+            <option value="Warden Approved">Warden Approved</option>
+            <option value="Outpatient Referred">Outpatient Referred</option>
+            <option value="Discharged">Discharged (Returned to Facility)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-[11px] text-slate-400">Assigned Vehicle Plate Number</label>
+          <input type="text" id="escortVehiclePlate" placeholder="e.g. SAB-4412 (BJMP Escort Van 02)" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white font-mono" />
+        </div>
+
+        <div>
+          <label class="text-[11px] text-slate-400">Command / Security Notes</label>
+          <textarea id="escortNotes" rows="2" placeholder="Warden clearance remarks..." class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-white"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeEscortModal()" class="px-4 py-2 text-xs rounded bg-slate-800 text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold rounded bg-purple-600 hover:bg-purple-500 text-white">Save Clearance</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{{> footer }}
+
